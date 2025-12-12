@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Bot Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Pocket Bot</h1>
+            <div class="status-bar">
+                <span id="status-connection" class="status-indicator status-off">CONNECTING</span>
+                <span id="status-trading" class="status-indicator status-neutral">TRADING OFF</span>
+                <span id="status-mode" class="status-indicator status-neutral">MODE: N/A</span>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+            <div class="panel controls-panel">
+                <h2>Bot Controls</h2>
+                <div class="control-group">
+                    <button id="btn-start" class="btn btn-success">START BOT</button>
+                    <button id="btn-stop" class="btn btn-danger" disabled>STOP BOT</button>
+                </div>
+                <div class="control-group">
+                    <button id="btn-trade" class="btn btn-primary" disabled>ENABLE TRADING</button>
+                    <button id="btn-stop-trade" class="btn btn-warning" disabled>DISABLE TRADING</button>
+                </div>
+
+                <div class="control-group">
+                    <label for="asset-select">Asset:</label>
+                    <select id="asset-select" class="control-input">
+                        <option value="EURUSD_otc">EURUSD_otc</option>
+                        <option value="GBPUSD_otc">GBPUSD_otc</option>
+                        <option value="USDJPY_otc">USDJPY_otc</option>
+                        <option value="AUDUSD_otc">AUDUSD_otc</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="timeframe-select">Timeframe (s):</label>
+                    <select id="timeframe-select" class="control-input">
+                        <option value="60">60s (M1)</option>
+                        <option value="300">300s (M5)</option>
+                        <option value="900">900s (M15)</option>
+                    </select>
+                </div>
+
+                <div class="control-group confidence-control">
+                    <label for="confidence-slider">Min Confidence:</label>
+                    <input type="range" id="confidence-slider" min="50" max="95" value="75" step="1">
+                    <span id="confidence-value">75%</span>
+                </div>
+                
+                <hr>
+
+                <h3>AI Learning</h3>
+                <div class="control-group">
+                    <input type="file" id="pdf-file-input" accept=".pdf" class="control-input">
+                    <button id="btn-upload-pdf" class="btn btn-secondary">UPLOAD & LEARN</button>
+                </div>
+                <p class="small-info">
+                    AI Key Concepts Learned: <span id="concepts-learned">0</span>
+                </p>
+            </div>
+
+            <div class="panel stats-panel">
+                <h2>Performance Stats</h2>
+                <div class="stat-container">
+                    <div class="stat-item">
+                        <span class="stat-label">Balance</span>
+                        <span id="stat-balance" class="stat-value">$0.00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Trades</span>
+                        <span id="stat-total-trades" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Win Rate</span>
+                        <span id="stat-win-rate" class="stat-value">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Wins/Losses</span>
+                        <span id="stat-wins-losses" class="stat-value">0 / 0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Trades (Last Hour)</span>
+                        <span id="stat-trades-hour" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">ML Win Rate</span>
+                        <span id="stat-ml-win-rate" class="stat-value">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel analysis-panel">
+                <h2>Market Analysis</h2>
+                <div class="analysis-item">
+                    <span class="analysis-label">Current Trend:</span>
+                    <span id="analysis-trend" class="analysis-value">Neutral</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="analysis-label">Patterns Detected:</span>
+                    <span id="analysis-patterns" class="analysis-value">0</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="analysis-label">Nearest Resistance:</span>
+                    <span id="analysis-resistance" class="analysis-value">N/A</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="analysis-label">Nearest Support:</span>
+                    <span id="analysis-support" class="analysis-value">N/A</span>
+                </div>
+            </div>
+
+            <div class="panel signal-panel">
+                <h2>AI Trade Signal</h2>
+                <h1 id="signal-direction" class="signal-direction">HOLD</h1>
+                <p class="signal-confidence">Confidence: <span id="signal-confidence">50%</span></p>
+                <p class="small-info" id="signal-reasoning">Waiting for strong signal...</p>
+            </div>
+            
+            <div class="panel chart-panel">
+                <h2>Candlestick Chart</h2>
+                <div id="market-chart"></div>
+            </div>
+
+            <div class="panel trades-panel">
+                <h2>Recent Trades</h2>
+                <table class="trades-list">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Asset</th>
+                            <th>Direction</th>
+                            <th>Amount ($)</th>
+                            <th>Outcome</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trades-list-body">
+                        <tr><td colspan="5" class="no-data">No trades executed yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            AI Trading Bot - Powered by Python & Pocket Option (Simulation Mode if no SSID is provided)
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
