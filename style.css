@@ -1,0 +1,336 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e4e4e4;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #333;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.status-bar {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.status-indicator {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.status-indicator.status-on {
+    background-color: #00ff8820;
+    color: #00ff88;
+    border: 1px solid #00ff88;
+}
+
+.status-indicator.status-off {
+    background-color: #ff444420;
+    color: #ff4444;
+    border: 1px solid #ff4444;
+}
+
+.status-indicator.status-neutral {
+    background-color: #aaa24420;
+    color: #ffcc00;
+    border: 1px solid #ffcc00;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr 1fr;
+    grid-template-rows: auto auto 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.controls-panel {
+    grid-column: 1;
+    grid-row: 1 / 4;
+}
+
+.stats-panel {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.analysis-panel {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.signal-panel {
+    grid-column: 2 / 4;
+    grid-row: 2;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.signal-direction {
+    font-size: 4rem;
+    margin: 10px 0;
+    font-weight: 700;
+}
+
+.signal-direction.call {
+    color: #00ff88;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+.signal-direction.put {
+    color: #ff4444;
+    text-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+}
+
+.signal-direction.hold {
+    color: #ffcc00;
+}
+
+.signal-confidence {
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+/* Controls */
+.control-group {
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.control-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #333;
+    color: #e4e4e4;
+    font-size: 1rem;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-success {
+    background-color: #00ff88;
+    color: #1a1a2e;
+}
+
+.btn-danger {
+    background-color: #ff4444;
+    color: #1a1a2e;
+}
+
+.btn-primary {
+    background-color: #00aaff;
+    color: #1a1a2e;
+}
+
+.btn-warning {
+    background-color: #ffcc00;
+    color: #1a1a2e;
+}
+
+.btn-secondary {
+    background-color: #555;
+    color: #e4e4e4;
+}
+
+.confidence-control {
+    display: flex;
+    flex-direction: column;
+}
+
+#confidence-slider {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    background: #444;
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+}
+
+#confidence-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #00ff88;
+    cursor: pointer;
+}
+
+/* Stats */
+.stat-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.stat-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 5px;
+    color: #00aaff;
+}
+
+/* Analysis */
+.analysis-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #333;
+}
+
+.analysis-item:last-child {
+    border-bottom: none;
+}
+
+.analysis-label {
+    color: #999;
+}
+
+.analysis-value {
+    font-weight: 600;
+    color: #00ff88;
+}
+
+/* Trades List */
+.trades-panel {
+    grid-column: 1 / 4;
+    grid-row: 3;
+}
+
+.trades-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.trades-list th, .trades-list td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #222;
+}
+
+.trades-list th {
+    color: #888;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.trades-list tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.trade-win {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+.trade-loss {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+.trade-pending {
+    color: #ffcc00;
+}
+
+/* Chart */
+.chart-panel {
+    grid-column: 2 / 4;
+    grid-row: 4;
+}
+
+#market-chart {
+    height: 400px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.small-info {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 5px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    color: #666;
+    border-top: 1px solid #333;
+}
