@@ -1,0 +1,10 @@
+Flask
+Flask-Cors
+requests
+numpy
+scikit-learn
+loguru
+ta==0.10.1
+PocketOptionAPI-async
+PyPDF2
+python-dotenv
